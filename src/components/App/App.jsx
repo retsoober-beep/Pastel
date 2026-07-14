@@ -1,14 +1,16 @@
 import { useState } from 'react'
-import { db } from "./firebase.js";
+import { db } from "../../db/firebase.js";
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
-console.log(db)
+  console.log(db)
   return (
-<div>
-<div></div>
-</div>
+    <div>
+      <div>
+        aaaaa
+      </div>
+    </div>
   )
 }
 
