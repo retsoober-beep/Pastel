@@ -1,14 +1,17 @@
 import { useState } from 'react'
-import { db } from "../../db/firebase.js";
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
-  console.log(db)
+
   return (
-    <div>
-      <div>
-        aaaaa
+    <div className="App">
+      <h1>Meu Projeto Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>Edite <code>src/App.jsx</code> e salve para testar.</p>
       </div>
     </div>
   )
