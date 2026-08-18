@@ -1,5 +1,5 @@
-import { collection, query } from "firebase/firestore"
-import { create } from zustand
+import { collection, query, serverTimestamp } from "firebase/firestore"
+import { create } from "zustand"
 import { dataBase } from "../db/firebase.js"
 
 
@@ -36,8 +36,27 @@ submitTodo: () => {
         )
 
     set({ cancelSubmit })
-}
+},
+    cancelSubmitTodos: () => {
+        const { cancelSubmit } = get()
+        if (cancelSubmit) cancelSubmit()
+    },
 
+    adicionarTarefas: async (titulo) => {
+        const titleClean = title.trim()
+        if (!titleClean) return
+
+        try {
+            await addDoc(referrenceCollectionTodos, {
+                title: titleClean,
+                done: false,
+                createdIn: serverTimestamp(),
+            })
+        } catch (error) {
+            console.error('Erro ao adicionar tarefa:', error)
+            set({ error:"Não foi possível adicionar tarefa."})
+        }
+    },
 }))
 
 
