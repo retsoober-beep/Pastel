@@ -1,4 +1,4 @@
-import { collection, query, serverTimestamp } from "firebase/firestore"
+import { collection, query, serverTimestamp, updateDoc } from "firebase/firestore"
 import { create } from "zustand"
 import { dataBase } from "../db/firebase.js"
 
@@ -42,7 +42,7 @@ submitTodo: () => {
         if (cancelSubmit) cancelSubmit()
     },
 
-    adicionarTarefas: async (titulo) => {
+    addTodo: async (title) => {
         const titleClean = title.trim()
         if (!titleClean) return
 
@@ -57,6 +57,26 @@ submitTodo: () => {
             set({ error:"Não foi possível adicionar tarefa."})
         }
     },
+    changeTodo: async (id, done) => {
+        try {
+            const referrenceCollectionTodos = doc(dataBase, 'todos', id)
+            await updateDoc(referrenceCollectionTodos, { done: !done })
+        } catch (error) {
+            console.error('Erro ao atualizar tarefa:', error)
+            set({ error:"Não foi possível atualizar tarefa."})
+        }
+    },
+    deleteTodo: async (id) => {
+        try {
+            const referrenceCollectionTodos = doc(dataBase, 'todos', id)
+            await deleteDoc(referrenceCollectionTodos)
+        } catch (error) {
+            console.error('Erro ao remover tarefa:', error)
+            set({ error:"Não foi possível remover tarefa."})
+        }
+    },
+
+    clearError: () => set({ error: null })
 }))
 
 
